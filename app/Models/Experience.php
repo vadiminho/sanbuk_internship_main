@@ -73,7 +73,7 @@ class Experience extends Model implements StatusInterface
 
     public function packages()
     {
-        return $this->hasMany(Package::class, 'id');
+        return $this->hasMany(Package::class, 'experience_id');
     }
 
     public function scopeActiveVendor(Builder $query)

@@ -47,3 +47,4 @@ class Vendor extends User
         return $this->hasMany(Experience::class);
     }
 }
+
