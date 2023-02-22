@@ -35,10 +35,18 @@ class ExperienceService
                     $experiences->with('vendor')->Activevendor()->get();
                 }
 
-                if ($key === 'available_date') {
+                if ($key === 'start_date') {
                     $experiences->with('packages')
                         ->whereHas('packages', function (Builder $query) use ($values) {
-                            $query->where('start_package_activity', '<', $values)->where('end_package_activity', '>', $values)
+                            $query->where('start_package_activity', '<', $values)
+                                ->where('status', '=', StatusInterface::STATUS_ACTIVE);
+                        });
+                }
+
+                if ($key === 'end_date') {
+                    $experiences->with('packages')
+                        ->whereHas('packages', function (Builder $query) use ($values) {
+                            $query->where('end_package_activity', '>', $values)
                                 ->where('status', '=', StatusInterface::STATUS_ACTIVE);
                         });
                 }
