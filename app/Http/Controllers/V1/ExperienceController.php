@@ -19,6 +19,4 @@ class ExperienceController extends Controller
     {
         return $this->experienceService->filter(request()->get('filter'));
     }
-
-
 }

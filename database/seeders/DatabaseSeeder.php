@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\CharterType;
-use App\Models\Package;
 use App\Models\Vendor;
 use Illuminate\Database\Seeder;
 

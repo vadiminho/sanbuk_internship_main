@@ -3,9 +3,6 @@
 namespace App\Services;
 
 use App\Models\Experience;
-use App\Models\Interfaces\StatusInterface;
-use App\Models\Package;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 
 class ExperienceService
@@ -15,44 +12,37 @@ class ExperienceService
         $experiences = Experience::query();
 
         if ($filterParams !== null) {
-            foreach ($filterParams as $key => $values) {
+            foreach ($filterParams as $key => $value) {
+                if ($key === 'date_from') {
+                    $experiences->with('packages')
+                        ->whereHas('packages', function (Builder $query) use ($value) {
+                            $query->whereDate('date_from', '>=', $value);
+                        });
+                }
+
+                if ($key === 'date_to') {
+                    $experiences->with('packages')
+                        ->whereHas('packages', function (Builder $query) use ($value) {
+                            $query->whereDate('date_to', '<=', $value);
+                        });
+                }
 
                 if ($key === 'type') {
                     $experiences->with('type')
-                        ->whereHas('type', function (Builder $query) use ($values) {
-                            $query->whereIn('id', $values);
+                        ->whereHas('type', function (Builder $query) use ($value) {
+                            $query->whereIn('id', $value);
                         });
                 }
 
                 if ($key === 'trip_type') {
                     $experiences->with('tripType')
-                        ->whereHas('tripType', function (Builder $query) use ($values) {
-                            $query->whereIn('id', $values);
-                        });
-                }
-
-                if ($key === 'active_vendor') {
-                    $experiences->with('vendor')->Activevendor()->get();
-                }
-
-                if ($key === 'start_date') {
-                    $experiences->with('packages')
-                        ->whereHas('packages', function (Builder $query) use ($values) {
-                            $query->where('start_package_activity', '<', $values)
-                                ->where('status', '=', StatusInterface::STATUS_ACTIVE);
-                        });
-                }
-
-                if ($key === 'end_date') {
-                    $experiences->with('packages')
-                        ->whereHas('packages', function (Builder $query) use ($values) {
-                            $query->where('end_package_activity', '>', $values)
-                                ->where('status', '=', StatusInterface::STATUS_ACTIVE);
+                        ->whereHas('tripType', function (Builder $query) use ($value) {
+                            $query->whereIn('id', $value);
                         });
                 }
             }
-
-            return $experiences->get();
         }
+
+        return $experiences->get();
     }
 }

@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      *
@@ -22,12 +23,10 @@ return new class extends Migration {
 
             $table->integer('price');
 
-            $table->date('start_package_activity');
-            $table->date('end_package_activity');
-
-            $table->tinyInteger('status')->nullable();
-
             $table->text('description')->nullable();
+
+            $table->date('date_from')->nullable();
+            $table->date('date_to')->nullable();
 
             $table->timestamps();
         });

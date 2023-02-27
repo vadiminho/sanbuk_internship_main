@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\Interfaces\StatusInterface;
+use App\Models\Experience;
 use App\Models\Package;
-use App\Models\TripType;
-use App\Models\User;
-use App\Models\Vendor;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -19,37 +16,13 @@ class PackageSeeder extends Seeder
      */
     public function run()
     {
-        Package::create([
-            'experience_id' => 5,
-            'name' => 'Top Package',
-            'price' => 2200,
-            'start_package_activity' => '2020-03-12',
-            'end_package_activity' => '2020-03-19',
-            'status' => 1,
-            'description' => fake()->text,
-        ]);
-
-        Package::create([
-            'experience_id' => 6,
-            'name' => 'Middle Package',
-            'price' => 2400,
-            'start_package_activity' => '2020-04-15',
-            'end_package_activity' => '2020-04-20',
-            'status' => 1,
-            'description' => fake()->text,
-        ]);
-
-        Package::create([
-            'experience_id' => 10,
-            'name' => 'Low Package',
-            'price' => 2900,
-            'start_package_activity' => '2022-07-2',
-            'end_package_activity' => '2022-07-15',
-            'status' => 1,
-            'description' => fake()->text,
-        ]);
-
-
+        for ($i = 0; $i < 20; $i++) {
+            Package::create([
+                'experience_id' => Experience::all()->random(1)->first()?->id,
+                'price' => mt_rand(100, 1000),
+                'name' => fake()->name,
+                'description' => fake()->text,
+            ]);
+        }
     }
-
 }

@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Interfaces\StatusInterface;
-use Eloquent;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,7 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|Package whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Package wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Package whereUpdatedAt($value)
- * @mixin Eloquent
+ * @mixin \Eloquent
  */
 class Package extends Model
 {
@@ -40,16 +37,10 @@ class Package extends Model
         'name',
         'price',
         'description',
-        'start_package_activity',
-        'end_package_activity',
-        'status',
     ];
-
 
     public function experience()
     {
         return $this->belongsTo(Experience::class);
     }
-
-
 }

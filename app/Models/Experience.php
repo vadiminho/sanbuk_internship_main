@@ -80,11 +80,4 @@ class Experience extends Model implements StatusInterface
     {
         return $query->whereRelation('vendor', 'status', Vendor::STATUS_ACTIVE);
     }
-
-    public function scopeTypeVendor(Builder $query)
-    {
-        return $query->whereRelation('vendor', 'type', Vendor::TYPE_VENDOR);
-    }
-
-
 }

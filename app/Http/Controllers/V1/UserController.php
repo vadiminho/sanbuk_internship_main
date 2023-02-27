@@ -12,6 +12,7 @@ use App\Services\UserService;
 use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\Header;
 use Knuckles\Scribe\Attributes\Subgroup;
 use Twilio\Exceptions\RestException;
 
@@ -33,6 +34,9 @@ class UserController extends Controller
     #[Endpoint('Sign In')]
     public function signIn(SignInRequest $request)
     {
+        $user = User::where('phone', $request->input('phone'))->firstOrFail();
+        return $user->createToken(mt_rand(0, 100))->plainTextToken;
+
         return $this->twilioService->sendVerifyCode($request->post('phone'));
     }
 
@@ -64,5 +68,14 @@ class UserController extends Controller
     public function profile()
     {
         return auth()->user();
+    }
+
+    #[Subgroup('Profile')]
+    #[Authenticated]
+    #[Endpoint('Delete profile')]
+    #[Header('Authorization', 'Bearer ')]
+    public function delete()
+    {
+        return auth()->user()->delete();
     }
 }
