@@ -34,15 +34,17 @@ class chargeRequest extends FormRequest
 
     public function withValidator(Validator $validator): void
     {
-        $validator->after(function (Validator $validator) {
-            $stripeService = new BookingService();
-            try {
-                $stripeService->stripe->products->retrieve($this->product_id);
-            } catch (InvalidRequestException $exception) {
-                $validator->errors()->add('product_id', $exception->getMessage());
-            }
+        if ($validator->fails() === false) {
+            $validator->after(function (Validator $validator) {
+                $stripeService = new BookingService();
+                try {
+                    $stripeService->stripe->products->retrieve($this->product_id);
+                } catch (InvalidRequestException $exception) {
+                    $validator->errors()->add('product_id', $exception->getMessage());
+                }
 
-        });
+            });
+        }
     }
 
 }
