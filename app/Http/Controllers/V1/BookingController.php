@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\V1;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Booking\chargeRequest;
 use App\Http\Requests\Booking\CreateRequest;
 use App\Services\BookingService;
+use Illuminate\Http\Request;
 use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
@@ -35,8 +37,8 @@ class BookingController extends Controller
 
     #[Endpoint('Buy Product')]
     #[Header('Authorization', 'Bearer ')]
-    public function buyProductFromStripe($productId)
+    public function buyProductFromStripe(chargeRequest $request)
     {
-        $this->bookingService->buyProduct($productId);
+        $this->bookingService->buyProduct($request->input('product_id'));
     }
 }

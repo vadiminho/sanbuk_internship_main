@@ -11,7 +11,7 @@ use Stripe\StripeClient;
 class BookingService
 {
 
-    private StripeClient|null $stripe = null;
+    public StripeClient|null $stripe = null;
 
     public function __construct()
     {
@@ -45,6 +45,6 @@ class BookingService
         $priceId = $this->stripe->products->retrieve($productId)->default_price;
         $price = $this->stripe->prices->retrieve($priceId, [])->unit_amount;
 
-        return $charge = $user->charge($price, $user->defaultPaymentMethod()?->id);
+        return $user->charge($price, $user->defaultPaymentMethod()?->id);
     }
 }

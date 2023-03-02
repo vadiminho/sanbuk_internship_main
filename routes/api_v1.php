@@ -25,7 +25,7 @@ Route::prefix('/bookings')->group(function () {
     Route::middleware(['auth:sanctum'])->group(function () {
         Route::post('/create', [BookingController::class, 'store']);
         Route::post('/products', [BookingController::class, 'getProducts']);
-        Route::post('/chargeProduct/{productId}', [BookingController::class, 'buyProductFromStripe']);
+        Route::post('/chargeProduct', [BookingController::class, 'buyProductFromStripe']);
     });
 
     Route::prefix('/webhooks')->group(function () {
